@@ -9,19 +9,21 @@ using berua.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using berua.API.Model;
+using Microsoft.AspNetCore.Cors;
 
 namespace berau_backend.Controllers
 {
     [Route("api/users")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class UsersController : ControllerBase
     {       
         private List<Guid> _savedUsers = new List<Guid>();
         
         [HttpPost]
-        [Route("search")]
+        [Route("search")]       
         public List<AccountDTO> Post([FromBody] SearchDTO search)
-        {
+        {           
             return new List<AccountDTO>(){
 
                 new AccountDTO() {
@@ -77,6 +79,7 @@ namespace berau_backend.Controllers
         }
 
         [HttpGet]
+        [Route("saved")]
         public IEnumerable<AccountDTO> GetSavedUsers()
         {
             var userList = new List<AccountDTO>();
