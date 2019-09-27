@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Berau\\berau-backend\\berau-backend\\berau-backend.csproj": {}
+    "D:\\Projects\\Berau\\berau-backend\\berau-backend.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Berau\\berau-backend\\berau-backend\\berau-backend.csproj": {
+    "D:\\Projects\\Berau\\berau-backend\\berau-backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Berau\\berau-backend\\berau-backend\\berau-backend.csproj",
+        "projectUniqueName": "D:\\Projects\\Berau\\berau-backend\\berau-backend.csproj",
         "projectName": "berau-backend",
-        "projectPath": "D:\\Projects\\Berau\\berau-backend\\berau-backend\\berau-backend.csproj",
+        "projectPath": "D:\\Projects\\Berau\\berau-backend\\berau-backend.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Berau\\berau-backend\\berau-backend\\obj\\",
+        "outputPath": "D:\\Projects\\Berau\\berau-backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
