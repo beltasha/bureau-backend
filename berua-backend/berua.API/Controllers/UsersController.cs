@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Cors;
 namespace berau_backend.Controllers
 {
     [Route("api/users")]
-   //[EnableCors("CorsPolicy")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class UsersController : ControllerBase
     {       
@@ -23,8 +23,7 @@ namespace berau_backend.Controllers
         [HttpPost]
         [Route("search")]       
         public List<AccountDTO> Post([FromBody] SearchDTO search)
-        {
-            var a = new Guid();
+        {           
             return new List<AccountDTO>(){
 
                 new AccountDTO() {
@@ -80,6 +79,7 @@ namespace berau_backend.Controllers
         }
 
         [HttpGet]
+        [Route("saved")]
         public IEnumerable<AccountDTO> GetSavedUsers()
         {
             var userList = new List<AccountDTO>();

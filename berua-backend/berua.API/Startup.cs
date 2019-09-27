@@ -25,12 +25,12 @@ namespace berua.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            //{
-            //    builder.AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader();//asdas
-            //}));
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();//asdas
+            }));
         }
         
 
@@ -43,7 +43,7 @@ namespace berua.API
             }
 
             app.UseMvc();
-            //app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
         }
     }
 }
