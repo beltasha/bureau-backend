@@ -4,7 +4,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:57143",
+      "applicationUrl": "http://localhost:6151",
       "sslPort": 0
     }
   },
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "berau_backend": {
+    "berua.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

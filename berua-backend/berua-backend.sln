@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.API", "berua.API\berua.API.csproj", "{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.BLL", "berua.BLL\berua.BLL.csproj", "{9626461E-5203-491C-9494-49A9BCE26012}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.DAL", "berua.DAL\berua.DAL.csproj", "{47F05032-5BAA-40A3-9BAF-74533E71D8BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9626461E-5203-491C-9494-49A9BCE26012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9626461E-5203-491C-9494-49A9BCE26012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9626461E-5203-491C-9494-49A9BCE26012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9626461E-5203-491C-9494-49A9BCE26012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4760F895-CDF2-41E7-BFDE-DDE0DDA2AE6A}
+	EndGlobalSection
+EndGlobal

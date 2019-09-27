@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace berau_backend.Controllers
+namespace berua.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
