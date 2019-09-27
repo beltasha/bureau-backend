@@ -25,6 +25,9 @@ namespace berau_backend.Controllers
                     AccountUrl = "https://vk.com/liz",
                     Type = SocialNetworkType.vk
                 }   
+
+
+
             };
         }
 

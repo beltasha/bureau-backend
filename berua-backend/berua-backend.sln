@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.API", "berua.API\berua.API.csproj", "{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "berua.API", "berua.API\berua.API.csproj", "{ECBFDB92-7CE5-44FC-BC3F-4F7159DE5788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.BLL", "berua.BLL\berua.BLL.csproj", "{9626461E-5203-491C-9494-49A9BCE26012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "berua.BLL", "berua.BLL\berua.BLL.csproj", "{9626461E-5203-491C-9494-49A9BCE26012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "berua.DAL", "berua.DAL\berua.DAL.csproj", "{47F05032-5BAA-40A3-9BAF-74533E71D8BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "berua.DAL", "berua.DAL\berua.DAL.csproj", "{47F05032-5BAA-40A3-9BAF-74533E71D8BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testdbdb", "testdbdb\testdbdb.csproj", "{8C779782-F225-44E7-ABE3-5CD064E5476F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47F05032-5BAA-40A3-9BAF-74533E71D8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C779782-F225-44E7-ABE3-5CD064E5476F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C779782-F225-44E7-ABE3-5CD064E5476F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C779782-F225-44E7-ABE3-5CD064E5476F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C779782-F225-44E7-ABE3-5CD064E5476F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
