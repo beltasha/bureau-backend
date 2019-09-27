@@ -30,6 +30,7 @@ namespace berua.DAL.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     DateRegistration = table.Column<DateTime>(nullable: false),
                     Login = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Salt = table.Column<string>(nullable: true)
                 },
@@ -42,14 +43,12 @@ namespace berua.DAL.Migrations
                 name: "Subscription",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subscription", x => x.Id);
+                    table.PrimaryKey("PK_Subscription", x => new { x.AccountId, x.UserId });
                     table.ForeignKey(
                         name: "FK_Subscription_Accounts_AccountId",
                         column: x => x.AccountId,
@@ -63,11 +62,6 @@ namespace berua.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subscription_AccountId",
-                table: "Subscription",
-                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscription_UserId",

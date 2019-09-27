@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace berua.DAL
+﻿namespace berua.DAL
 {
     public class Subscription
     {
-        public long Id { get; set; }
         public int UserId { get; set; }
-        public User Student { get; set; }
+        public User User { get; set; }
 
         public int AccountId { get; set; }
-        public Account Course { get; set; }
+        public Account Account { get; set; }
     }
 }

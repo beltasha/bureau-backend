@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace berua.DAL
 {
@@ -12,11 +11,6 @@ namespace berua.DAL
         public string Phone { get; set; }
         public string Password { get; set; }
         public string Salt { get; set; }
-        public ICollection<Subscription> Subscriptions { get; set; }
-
-        public User()
-        {
-            Subscriptions = new List<Subscription>();
-        }
+        public List<Subscription> Subscriptions { get; set; }
     }
 }

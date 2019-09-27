@@ -1,6 +1,7 @@
 ﻿using berua.BLL.Actions;
 using berua.BLL.DTO;
 using System;
+using System.IO;
 
 namespace testdbdb
 {
@@ -16,6 +17,8 @@ namespace testdbdb
             };
 
             UserAction.RegistrationUser(user);
+
+            UserAction.ValidateUser(user.Login, user.Password);
 
         }
     }

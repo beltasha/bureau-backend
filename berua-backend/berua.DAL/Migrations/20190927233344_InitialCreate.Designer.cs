@@ -9,8 +9,8 @@ using berua.DAL;
 namespace berua.DAL.Migrations
 {
     [DbContext(typeof(BeruaContext))]
-    [Migration("20190927210457_AddPhone")]
-    partial class AddPhone
+    [Migration("20190927233344_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,16 +36,11 @@ namespace berua.DAL.Migrations
 
             modelBuilder.Entity("berua.DAL.Subscription", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("AccountId");
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
+                    b.HasKey("AccountId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -74,12 +69,12 @@ namespace berua.DAL.Migrations
 
             modelBuilder.Entity("berua.DAL.Subscription", b =>
                 {
-                    b.HasOne("berua.DAL.Account", "Course")
+                    b.HasOne("berua.DAL.Account", "Account")
                         .WithMany("Subscriptions")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("berua.DAL.User", "Student")
+                    b.HasOne("berua.DAL.User", "User")
                         .WithMany("Subscriptions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

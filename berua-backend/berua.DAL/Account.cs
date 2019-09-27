@@ -8,11 +8,6 @@ namespace berua.DAL
         public string LoginVK { get; set; }
         public string LoginInstagram { get; set; }
         public string LoginFacebook { get; set; }
-        public ICollection<Subscription> Subscriptions { get; set; }
-
-        public Account()
-        {
-            Subscriptions = new List<Subscription>();
-        }
+        public List<Subscription> Subscriptions { get; set; }
     }
 }
