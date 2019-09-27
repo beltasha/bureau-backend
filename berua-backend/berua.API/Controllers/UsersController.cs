@@ -35,7 +35,7 @@ namespace berau_backend.Controllers
         }
 
         [HttpPost]
-        [Route("posts")]
+        [Route("get-posts")]
         public IEnumerable<PostDTO> GetUserPosts([FromBody] string accountId)
         {                     
             var post1 = new PostDTO()
