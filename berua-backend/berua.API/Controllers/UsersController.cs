@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using berau_backend.Model;
+using berua.API.Clients;
+using berua.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +17,7 @@ namespace berau_backend.Controllers
     {
         [HttpPost]
         [Route("search")]
-        public List<AccountDTO> Post([FromBody] string searchText)
+        public List<AccountDTO> Post([FromBody] SearchDTO search)
         {
             return new List<AccountDTO>(){
 
@@ -38,6 +41,14 @@ namespace berau_backend.Controllers
         public string Get()
         {
             return "Something I'm not sure what";
+        }
+
+        [HttpGet]
+        [Route("posts")]
+        public async void GetInfo()
+        {
+            //var resp = VkClient.GetUserPosts("210700286");
+            VkClient.GetCredentials();
         }
     }
 }
