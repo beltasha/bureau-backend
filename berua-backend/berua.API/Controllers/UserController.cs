@@ -12,8 +12,7 @@ namespace berua.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost]
-        [Route("add-user")]
+        [HttpPost]      
         public IActionResult AddUpdateVKUser([FromBody] TokenModel token)
         {
             var vkuser = VkClient.GetUser(token.Token);
