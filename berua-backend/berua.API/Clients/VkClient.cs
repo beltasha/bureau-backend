@@ -78,15 +78,20 @@ namespace berua.API.Clients
 
         public static void GetCurrentUserFriends()
         {
+
             var friends = _api.Friends.Get(new FriendsGetParams
             {
 
             });
+            var p = _api.Users.Get(new long[] { }).FirstOrDefault();
+            SaveNewsFeed();
         }
 
         public static void SaveNewsFeed()
-        {
-            //_api.NewsFeed.SaveList()
+        { 
+
+            var myper = _api.Account.GetAppPermissions();
+            var saveList = _api.NewsFeed.SaveList(title: "Titul!", sourceIds: new List<long>() { 57559989 });
         }
 
     }
