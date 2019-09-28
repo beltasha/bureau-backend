@@ -84,13 +84,18 @@ namespace berua.API.Clients
 
             });
             var p = _api.Users.Get(new long[] { }).FirstOrDefault();
-            SaveNewsFeed();
-        }
-
-        public static void SaveNewsFeed()
-        {
-
             
+        }
+        
+        public static User GetUser(string token)
+        {
+            VkApi api = new VkApi();
+            api.Authorize(new ApiAuthParams
+            {
+                AccessToken = token
+            });
+            var account = api.Users.Get(new List<long>());
+            return account.FirstOrDefault();
         }
 
     }
