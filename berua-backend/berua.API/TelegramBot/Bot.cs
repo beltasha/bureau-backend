@@ -16,15 +16,12 @@ namespace berua.API.Telegram
         public static void Startup()
         {
             botClient = new TelegramBotClient(BotSettings.Token);
-
-            var me = botClient.GetMeAsync().Result;
-
-            botClient.OnMessage += Bot_OnMessage;
+            botClient.OnMessage += OnMessage;
             botClient.StartReceiving();
             Thread.Sleep(int.MaxValue);
         }
 
-        static async void Bot_OnMessage(object sender, MessageEventArgs e)
+        static async void OnMessage(object sender, MessageEventArgs e)
         {
 
             switch (e.Message.Text) {
@@ -78,16 +75,22 @@ namespace berua.API.Telegram
         {
             await botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: post.Text,
-                disableNotification: true);
+                text: post.Text
+            );
         }
 
         public static async void SendMessages(Dictionary<long, List<PostDTO>> postList)
         {
-            //await botClient.SendTextMessageAsync(
-            //    chatId: chatId,
-            //    text: post.Text,
-            //    disableNotification: true);
+            foreach (var post in postList)
+            {
+                foreach (var item in post.Value)
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: post.Key,
+                        text: item.Text
+                    );
+                }
+            }
         }
     }
 }
