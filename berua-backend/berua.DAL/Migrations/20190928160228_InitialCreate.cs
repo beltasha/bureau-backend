@@ -15,7 +15,10 @@ namespace berua.DAL.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    AvatarUrl = table.Column<string>(nullable: true)
+                    AvatarUrl = table.Column<string>(nullable: true),
+                    KeyVK = table.Column<string>(nullable: true),
+                    KeyInstagram = table.Column<string>(nullable: true),
+                    KeyFacebook = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,13 +29,14 @@ namespace berua.DAL.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DateRegistration = table.Column<DateTime>(nullable: false),
-                    Login = table.Column<string>(nullable: true),
+                    Domain = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Salt = table.Column<string>(nullable: true)
+                    ChatId = table.Column<long>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,38 +44,19 @@ namespace berua.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountKeys",
+                name: "Subscription",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    SocialNetworkType = table.Column<byte>(nullable: false),
+                    UserId = table.Column<long>(nullable: false),
                     AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountKeys", x => x.Id);
+                    table.PrimaryKey("PK_Subscription", x => new { x.AccountId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_AccountKeys_Accounts_AccountId",
+                        name: "FK_Subscription_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subscription",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(nullable: false),
-                    AccountKeyId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subscription", x => new { x.AccountKeyId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_Subscription_AccountKeys_AccountKeyId",
-                        column: x => x.AccountKeyId,
-                        principalTable: "AccountKeys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -81,11 +66,6 @@ namespace berua.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccountKeys_AccountId",
-                table: "AccountKeys",
-                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscription_UserId",
@@ -99,13 +79,10 @@ namespace berua.DAL.Migrations
                 name: "Subscription");
 
             migrationBuilder.DropTable(
-                name: "AccountKeys");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Accounts");
         }
     }
 }

@@ -9,17 +9,16 @@ namespace berua.DAL
 
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<AccountKey> AccountKeys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Subscription>()
-                .HasKey(pt => new { pt.AccountKeyId, pt.UserId });
+                .HasKey(pt => new { pt.AccountId, pt.UserId });
 
             modelBuilder.Entity<Subscription>()
-                .HasOne(pt => pt.AccountKey)
+                .HasOne(pt => pt.Account)
                 .WithMany(p => p.Subscriptions)
-                .HasForeignKey(pt => pt.AccountKeyId);
+                .HasForeignKey(pt => pt.AccountId);
 
             modelBuilder.Entity<Subscription>()
                 .HasOne(pt => pt.User)

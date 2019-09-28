@@ -23,6 +23,12 @@ namespace berua.DAL.Migrations
 
                     b.Property<string>("AvatarUrl");
 
+                    b.Property<string>("KeyFacebook");
+
+                    b.Property<string>("KeyInstagram");
+
+                    b.Property<string>("KeyVK");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Surname");
@@ -32,29 +38,13 @@ namespace berua.DAL.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("berua.DAL.AccountKey", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccountId");
-
-                    b.Property<byte>("SocialNetworkType");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.ToTable("AccountKeys");
-                });
-
             modelBuilder.Entity("berua.DAL.Subscription", b =>
                 {
-                    b.Property<string>("AccountKeyId");
+                    b.Property<int>("AccountId");
 
                     b.Property<long>("UserId");
 
-                    b.HasKey("AccountKeyId", "UserId");
+                    b.HasKey("AccountId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -83,19 +73,11 @@ namespace berua.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("berua.DAL.AccountKey", b =>
-                {
-                    b.HasOne("berua.DAL.Account", "Account")
-                        .WithMany("AccountKeys")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("berua.DAL.Subscription", b =>
                 {
-                    b.HasOne("berua.DAL.AccountKey", "AccountKey")
+                    b.HasOne("berua.DAL.Account", "Account")
                         .WithMany("Subscriptions")
-                        .HasForeignKey("AccountKeyId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("berua.DAL.User", "User")
