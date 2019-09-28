@@ -12,7 +12,8 @@ namespace berua.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost]      
+        [HttpPost]    
+        [Route("addupdatevkuser")]
         public IActionResult AddUpdateVKUser([FromBody] TokenModel token)
         {
             var vkuser = VkClient.GetUser(token.Token);
@@ -31,6 +32,7 @@ namespace berua.API.Controllers
         }
 
         [HttpPost]
+        [Route("updatephone")]
         public IActionResult UpdatePhone(long userId, string phone)
         {
             //phone = phone.Substring(phone.Length - 10);
@@ -41,6 +43,7 @@ namespace berua.API.Controllers
         }
 
         [HttpPost]
+        [Route("getphone")]
         public IActionResult GetPhone(long userId)
         {
             return Ok(UserAction.GetPhoneUser(userId));
