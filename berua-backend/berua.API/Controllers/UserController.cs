@@ -3,6 +3,7 @@ using berua.BLL.Actions;
 using berua.BLL.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using berua.API.Clients;
 
 namespace berua.API.Controllers
 {
@@ -12,21 +13,22 @@ namespace berua.API.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost]
-        public IActionResult AddUpadateVKUser([FromBody] AuthVKModel model)
+        [Route("add-user")]
+        public IActionResult AddUpdateVKUser([FromBody] TokenModel token)
         {
+            var vkuser = VkClient.GetUser(token.Token);
             var user = new UserDTO
             {
-                Id = model.Id,
-                FirstName = model.First_name,
-                LastName = model.Last_name,
-                Domain = model.Domain
+                Id = vkuser.Id,
+                FirstName = vkuser.FirstName,
+                LastName = vkuser.LastName,
+                Domain = vkuser.Domain,
             };
 
             if (UserAction.AddUpdateUser(user))
                 return Ok();
             else
-                return BadRequest("Ошибка при добавлении пользоватиеля");
-
+                return BadRequest("Ошибка при добавлении пользоватиеля");           
         }
 
         [HttpPost]
