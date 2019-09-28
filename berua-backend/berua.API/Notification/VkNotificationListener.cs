@@ -9,7 +9,7 @@ namespace berua.API.Notification
 {
     public class VkNotificationListener
     {
-        private List<long> _userIdList;
+        private List<long> _userIdList = new List<long>();
         private int _delayMs = 6000000;
         public delegate void VkHandler(Dictionary<long, List<VkWallResponse>> posts);
         public event VkHandler PostsFound;

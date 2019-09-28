@@ -3,6 +3,7 @@ using berua.BLL.Actions;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,11 +14,12 @@ namespace berua.API.Telegram
     {
         private static ITelegramBotClient botClient;
 
-        public static void Startup()
+        public async static Task Startup()
         {
             botClient = new TelegramBotClient(BotSettings.Token);
             botClient.OnMessage += OnMessage;
             botClient.StartReceiving();
+            //Task.Delay(int.MaxValue);
             Thread.Sleep(int.MaxValue);
         }
 
