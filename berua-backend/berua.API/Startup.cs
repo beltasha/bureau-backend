@@ -34,8 +34,8 @@ namespace berua.API
                     .AllowAnyHeader();//asdas
             }));
 
-            Task.Run(() => Telegram.Bot.Startup());
-            NotificationManager.Instance.Start();
+            //Task.Run(() => Telegram.Bot.Startup());
+            //NotificationManager.Instance.Start();
         }
         
 
