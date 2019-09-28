@@ -24,7 +24,7 @@ namespace berua.API.Notification
         
         public void ProcessNewVkPosts(List<VkWallResponse> postList)
         {
-
+            
         }
     }
 }
