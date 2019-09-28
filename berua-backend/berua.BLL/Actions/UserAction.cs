@@ -18,6 +18,7 @@ namespace berua.BLL.Actions
                         dbUser.FirstName = user.FirstName;
                         dbUser.LastName = user.LastName;
                         dbUser.Domain = user.Domain;
+                        dbUser.ChatId = user.ChatId;
                     }
                     else
                     {
@@ -28,6 +29,7 @@ namespace berua.BLL.Actions
                             Domain = user.Domain,
                             FirstName = user.FirstName,
                             LastName = user.LastName,
+                            ChatId = user.ChatId
                         });
                     }
 
@@ -143,7 +145,7 @@ namespace berua.BLL.Actions
         }
 
         /// <summary>
-        /// Метод возвразщает телефон пользователя, по его Id
+        /// Метод возвразщает UserDTO, по номеру телефона
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -153,27 +155,28 @@ namespace berua.BLL.Actions
             {
                 using (var ctx = new BeruaContext())
                 {
-                    var dbUser = ctx.Users.FirstOrDefault(u => phone.Contains(u.Phone));
-                    if (dbUser == null)
-                        throw new Exception("Пользователь не найден");
-
-                    var user = new UserDTO()
+                    UserDTO user = null;
+                    var dbUser = ctx.Users.FirstOrDefault(u => u.Phone.Contains(phone) || u.Phone.Equals(phone));
+                    if (dbUser != null)
                     {
-                        Id = dbUser.Id,
-                        Domain = dbUser.Domain,
-                        Phone = dbUser.Phone,
-                        FirstName = dbUser.FirstName,
-                        LastName = dbUser.LastName,
-                        ChatId = dbUser.ChatId
-                    };
-
+                        user = new UserDTO()
+                        {
+                            Id = dbUser.Id,
+                            Domain = dbUser.Domain,
+                            Phone = dbUser.Phone,
+                            FirstName = dbUser.FirstName,
+                            LastName = dbUser.LastName,
+                            ChatId = dbUser.ChatId
+                        };
+                    }
                     return user;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                
             }
+            return null;
         }
 
         /// <summary>

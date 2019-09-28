@@ -29,43 +29,38 @@ namespace berua.API.Telegram
             switch (e.Message.Text) {
                 case "/start":
                     await botClient.SendTextMessageAsync(
-                        chatId: e.Message.Chat,
-                        text: "Для окончания регистрации нажмите кнопку Подтвердить. ВНИМАНИЕ: подтверждая, вы передаете БЮРО свой номер телефона для регистрации в системе.",
+                        chatId: e.Message.Chat.Id,
+                        text: "Нажмите Подтвердить, чтобы получать уведомления. ВНИМАНИЕ: подтверждая, вы передаете БЮРО свой номер телефона для регистрации в системе.",
                         disableNotification: true,
-                        replyMarkup: new ReplyKeyboardMarkup(KeyboardButton.WithRequestContact("Подтвердить")));
+                        replyMarkup: new ReplyKeyboardMarkup(KeyboardButton.WithRequestContact("Подтвердить")));    
                     break;
                 default:
                     if (e.Message.Contact != null && e.Message.Contact != null) {
 
-                        // Здесь сохранение данных пользователя
-                        var userDto = UserAction.GetUserByPhone(e.Message.Contact.PhoneNumber);
-                        if (userDto == null)
+                        var userDto =  UserAction.GetUserByPhone(e.Message.Contact.PhoneNumber);
+                        if (userDto.ChatId != e.Message.Chat.Id)
                         {
-                            userDto = new BLL.DTO.UserDTO()
+                            if (userDto == null)
                             {
-                                FirstName = e.Message.Contact.FirstName,
-                                LastName = e.Message.Contact.LastName,
-                                Phone = e.Message.Contact.PhoneNumber,
-                                ChatId = e.Message.Chat.Id
-                            };
-                            UserAction.AddUpdateUser(userDto);
-
+                                userDto = new BLL.DTO.UserDTO()
+                                {
+                                    FirstName = e.Message.Contact.FirstName,
+                                    LastName = e.Message.Contact.LastName,
+                                    Phone = e.Message.Contact.PhoneNumber,
+                                    ChatId = e.Message.Chat.Id
+                                };
+                                UserAction.AddUpdateUser(userDto);
+                            }
+                            else
+                            {
+                                userDto.ChatId = e.Message.Chat.Id;
+                                UserAction.AddUpdateUser(userDto);
+                            }
                             await botClient.SendTextMessageAsync(
-                              chatId: e.Message.Chat,
-                              text: "Благодарим за регистрацию",
-                              replyMarkup: new ReplyKeyboardRemove()
-                            );
-                        }
-                        else
-                        {
-                            userDto.ChatId = e.Message.Chat.Id;
-                            UserAction.AddUpdateUser(userDto);
-
-                            await botClient.SendTextMessageAsync(
-                              chatId: e.Message.Chat,
-                              text: "Благодарим за регистрацию",
-                              replyMarkup: new ReplyKeyboardRemove()
-                            );
+                                  chatId: e.Message.Chat.Id,
+                                  text: "Благодарим за регистрацию",
+                                  replyMarkup: new ReplyKeyboardRemove()
+                                );
                         }
                         // Здесь нужно подписывать пользователя на уведомления
                     }
