@@ -38,5 +38,11 @@ namespace berua.API.Controllers
             else
                 return BadRequest("Ошибка при обновлении номера телефона");
         }
+
+        [HttpPost]
+        public IActionResult GetPhone(long userId)
+        {
+            return Ok(UserAction.GetPhoneUser(userId));
+        }
     }
 }

@@ -82,7 +82,7 @@ namespace berua.BLL.Actions
         //}
 
 
-        public static ICollection<AccountDTO> GetSubSubscriptionsByUser(long userId)
+        public static ICollection<AccountDTO> GetSubscriptionsByUser(long userId)
         {
             var listRes = new List<AccountDTO>();
 
