@@ -136,9 +136,9 @@ namespace berua.BLL.Actions
                     return dbUser.Phone;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return "";
+                return ex.Message;
             }
         }
 
