@@ -16,7 +16,7 @@ namespace berua.API.Telegram
         public static void Startup()
         {
             botClient = new TelegramBotClient(BotSettings.Token);
-            botClient.OnMessage += OnMessage;
+            //botClient.OnMessage += OnMessage;
             botClient.StartReceiving();
             Thread.Sleep(int.MaxValue);
         }
