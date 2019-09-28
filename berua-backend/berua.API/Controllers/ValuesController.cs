@@ -14,9 +14,8 @@ namespace berua.API.Controllers
     {
         // GET api/values
         [HttpGet]
-        public void Get()
-        {
-            VkClient.GetCurrentUserFriends();
+        public async Task Get()
+        {                      
         }
 
 

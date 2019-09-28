@@ -7,6 +7,8 @@ namespace berua.API.Model
 {
     public class TokenModel
     {
-        public string Token { get; set; }
+        public string Code { get; set; }
+        public string ClientId { get; set; }
+        public string RedirectId { get; set; }
     }
 }
