@@ -22,7 +22,7 @@ namespace berua.API.Model
         public long Id { get; set; }
         public long FromId { get; set; }
         public long OwnerId { get; set; }
-        public long Date { get; set; }
+        public DateTime Date { get; set; }
         public PostType PostType { get; set; }
         public string Text { get; set; }
         public List<Attachment> Attachments { get; set; }
