@@ -88,9 +88,12 @@ namespace berua.API.Clients
         }
 
         public static void SaveNewsFeed()
-        { 
+        {
 
-            var myper = _api.Account.GetAppPermissions();
+            var get = _api.NewsFeed.Get(new NewsFeedGetParams
+            {
+
+            });
             var saveList = _api.NewsFeed.SaveList(title: "Titul!", sourceIds: new List<long>() { 57559989 });
         }
 
