@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace berua.BLL.DTO
+﻿namespace berua.BLL.DTO
 {
     public class UserDTO
     {
@@ -11,5 +7,6 @@ namespace berua.BLL.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
+        public long ChatId { get; set; }
     }
 }

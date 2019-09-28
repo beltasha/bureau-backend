@@ -6,12 +6,9 @@ namespace berua.BLL.DTO
     {
         public int Id { get; set; }
         public string Fullname { get; set; }
-        public string PhotoUrl { get; set; }
-        public Dictionary<SocialNetworkType, string> AccountIds {get; set;}
-
-        public AccountDTO()
-        {
-            AccountIds = new Dictionary<SocialNetworkType, string>();
-        }
+        public string AvatarUrl { get; set; }
+        public string KeyVK { get; set; }
+        public string KeyInstagram { get; set; }
+        public string KeyFacebook { get; set; }
     }
 }

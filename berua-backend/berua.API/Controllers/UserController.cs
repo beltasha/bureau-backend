@@ -13,7 +13,7 @@ namespace berua.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost]    
+        [HttpPost]
         [Route("addupdatevkuser")]
         public async Task<IActionResult> AddUpdateVKUser([FromBody] TokenModel token)
         {
@@ -29,8 +29,9 @@ namespace berua.API.Controllers
 
             if (UserAction.AddUpdateUser(user))
                 return Ok();
-            else
+            else       
                 return BadRequest("Ошибка при добавлении пользоватиеля");                  
+
         }
 
         [HttpPost]
@@ -46,9 +47,26 @@ namespace berua.API.Controllers
 
         [HttpPost]
         [Route("getphone")]
-        public IActionResult GetPhone(long userId)
+        public IActionResult GetPhone([FromBody] long userId)
         {
             return Ok(UserAction.GetPhoneUser(userId));
+        }
+
+
+        [HttpPost]
+        [Route("addtest")]
+        public IActionResult AddUpdateVKUser([FromBody] AuthVKModel model)
+        {
+            var user = new UserDTO
+            {
+                Id = model.Id,
+                Domain = model.Domain,
+            };
+
+            if (UserAction.AddUpdateUser(user))
+                return Ok();
+            else
+                return BadRequest("Ошибка при добавлении пользоватиеля");
         }
     }
 }

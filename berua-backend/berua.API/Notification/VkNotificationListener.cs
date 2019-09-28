@@ -9,13 +9,15 @@ namespace berua.API.Notification
 {
     public class VkNotificationListener
     {
-        private List<long> _userIdList = new List<long>()
-        {
-
-        };
+        private List<long> _userIdList;
         private int _delayMs = 6000000;
-        public delegate void VkHandler(List<VkWallResponse> posts);
+        public delegate void VkHandler(Dictionary<long, List<VkWallResponse>> posts);
         public event VkHandler PostsFound;
+
+        public void AddUser(long userId)
+        {
+            _userIdList.Add(userId);
+        }
 
         public async Task Process()
         {
@@ -30,18 +32,25 @@ namespace berua.API.Notification
             }
         }
 
-        private async Task<List<VkWallResponse>> CheckUpdates()
+        private async Task<Dictionary<long, List<VkWallResponse>>> CheckUpdates()
         {
-            List<VkWallResponse> postList = new List<VkWallResponse>();
+            Dictionary<long, List<VkWallResponse>> usersPosts = new Dictionary<long, List<VkWallResponse>>();
             foreach (var userId in _userIdList)
             {
                 var wall = await VkClient.GetUserPosts(userId.ToString());
                 if (wall.Response.Items.Any(x => x.Date > DateTime.Now.AddMinutes(-10)))
                 {
-                    postList.Add(wall);
+                    if (usersPosts.ContainsKey(userId))
+                    {
+                        usersPosts[userId].Add(wall);
+                    }
+                    else
+                    {
+                        usersPosts.Add(userId, new List<VkWallResponse>() { wall });
+                    }
                 }
             }
-            return postList;
+            return usersPosts;
         }
     }
 }

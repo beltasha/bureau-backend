@@ -10,60 +10,47 @@ namespace berua.BLL.Actions
     public static class AccountAction
     {
 
-        //public static void AddAccount(AccountDTO acc, SubscriptionDTO sub)
-        //{
-        //    try
-        //    {
-        //        using (var ctx = new BeruaContext())
-        //        {
-        //            var key = new AccountKey
-        //            {
-                        
-        //                SocialNetworkType = ()sub.Type,
-        //            };
+        public static int AddUpdateAccount(AccountDTO acc)
+        {
+            int resId = 0;
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    if (ctx.Accounts.Find(acc.Id) is Account dbAcc)
+                    {
+                        resId = acc.Id;
+                        dbAcc.AvatarUrl = acc.AvatarUrl;
+                        dbAcc.KeyFacebook = string.IsNullOrEmpty(acc.KeyFacebook) ? dbAcc.KeyFacebook : acc.KeyFacebook;
+                        dbAcc.KeyInstagram = string.IsNullOrEmpty(acc.KeyInstagram) ? dbAcc.KeyInstagram : acc.KeyInstagram;
+                        dbAcc.KeyVK = string.IsNullOrEmpty(acc.KeyVK) ? dbAcc.KeyVK : acc.KeyVK;
+                        dbAcc.Fullname = acc.Fullname;
+                    }
+                    else
+                    {
+                        ctx.Accounts.Add(new Account
+                        {
+                            Fullname = acc.Fullname,
+                            AvatarUrl = acc.AvatarUrl,
+                            KeyFacebook = acc.KeyFacebook ?? string.Empty,
+                            KeyInstagram = acc.KeyInstagram ?? string.Empty,
+                            KeyVK = acc.KeyVK ?? string.Empty,
+                        });
+                    }
 
-
-        //            var newAcc = new Account
-        //            {
-        //                AvatarUrl = acc.PhotoUrl,
-        //                Name = acc.Fullname.Contains(" ") ? acc.Fullname.Split(" ")[0] : acc.Fullname,
-        //                Surname = acc.Fullname.Contains(" ") ? acc.Fullname.Split(" ")[1] : "",
-        //            };
-
-        //            if(ctx.Accounts.FirstOrDefault(x => x.AccountKeys.Contains()))
-
-        //           var dbAccountKeys = ctx.AccountKeys.Where(x => x.SocialNetworkType == account.).Select(x => x.)
-
-        //            if (ctx.Acc.Any(x => login == x.Login))
-        //                return -2;
-
-        //            var salt = Hash.CreateSalt(4);
-        //            var passHash = Hash.GenerateSaltedHash(psw, salt);
-
-        //            ctx.Add(new User
-        //            {
-        //                DateRegistration = DateTime.Now,
-        //                Login = login,
-        //                Salt = Convert.ToBase64String(salt),
-        //                Password = Convert.ToBase64String(passHash),
-        //            });
-
-        //            ctx.SaveChanges();
-
-                    
-        //        }
-        //    }
-        //    catch
-        //    {
-                
-        //    }
-
-
-
-
-        //}
-
-
+                    if (ctx.ChangeTracker.HasChanges())
+                    {
+                        ctx.SaveChanges();
+                        resId = ctx.Accounts.Last().Id;
+                    }
+                }
+                return resId;
+            }
+            catch
+            {
+                return resId;
+            }
+        }
 
     }
 }
