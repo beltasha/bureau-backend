@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using berau_backend.Model;
 using Microsoft.AspNetCore.Mvc;
+using berua.API.Clients;
 
 namespace berua.API.Controllers
 {
@@ -13,15 +14,9 @@ namespace berua.API.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IActionResult GetTest()
+        public void Get()
         {
-            var dict = new Dictionary<SocialNetworkType, string>()
-            { 
-                {SocialNetworkType.vk, "xfkgjbns;gbk"},
-                {SocialNetworkType.facebook, "dtyjd"},
-                {SocialNetworkType.instagram, "dydyhnsthsrth;gbk"},
-            };
-            return Ok(dict);
+            VkClient.GetCurrentUserFriends();
         }
 
 
