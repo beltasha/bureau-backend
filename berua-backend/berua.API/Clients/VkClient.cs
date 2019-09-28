@@ -9,6 +9,7 @@ using VkNet.Enums.Filters;
 using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
+using Newtonsoft.Json;
 
 namespace berua.API.Clients
 {
@@ -87,15 +88,37 @@ namespace berua.API.Clients
             
         }
         
-        public static User GetUser(string token)
+        public async Task<User> GetUser(TokenModel token)
         {
+            VkApi api = new VkApi();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = await HttpClient.GetAsync("https://oauth.vk.com/access_token?client_id="+token.ClientId+ "&client_secret=0jHZfOgGCSz3HBs1iMgH&redirect_uri="+token.RedirectId+"&code="+token.Code);
+                      
+            var account = api.Users.Get(new List<long>());
+            return account.FirstOrDefault();
+        }
+
+        public async Task<User> GetUserByCode(TokenModel token)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = await HttpClient.GetAsync("https://oauth.vk.com/access_token?client_id=" + token.ClientId + "&client_secret=0jHZfOgGCSz3HBs1iMgH&redirect_uri=" + token.RedirectId + "&code=" + token.Code);
+            var json = await response.Content.ReadAsStringAsync();
+            TokenResponse tokenReponse = JsonConvert.DeserializeObject<TokenResponse> (json);
             VkApi api = new VkApi();
             api.Authorize(new ApiAuthParams
             {
-                AccessToken = token
+                AccessToken = tokenReponse.Access_token
             });
-            var account = api.Users.Get(new List<long>());
-            return account.FirstOrDefault();
+
+            var a = api.Users.Get(new long[] { });
+            return a.FirstOrDefault();
+        }
+
+        private class TokenResponse
+        {
+            public string Access_token { get; set; }
+            public string Expires_in { get; set; }
+            public string User_id { get; set; }
         }
 
     }
