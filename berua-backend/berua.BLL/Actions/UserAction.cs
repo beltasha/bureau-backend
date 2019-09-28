@@ -138,7 +138,7 @@ namespace berua.BLL.Actions
             }
             catch (Exception ex)
             {
-                return ex.InnerException.Message;
+                return ex.Message;
             }
         }
 

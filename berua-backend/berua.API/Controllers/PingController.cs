@@ -17,7 +17,7 @@ namespace berua.API.Controllers
         [Route("get-version")]
         public IActionResult GetVersion()
         {
-            return Ok("7");
+            return Ok("8");
         }
     }
 }
