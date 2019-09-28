@@ -1,75 +1,144 @@
 ﻿using berua.BLL.DTO;
 using berua.DAL;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 
 namespace berua.BLL.Actions
 {
     public static class UserAction
     {
-        public static int RegistrationUser(string login, string psw)
+        public static bool AddUpdateUser(UserDTO user)
         {
             try
             {
                 using (var ctx = new BeruaContext())
                 {
-                    var sef = ctx.Accounts;
-                    var sd = ctx.Users.ToList();
-
-                    if (ctx.Users.Any(x => login == x.Login))
-                        return -2;
-
-                    var salt = Hash.CreateSalt(4);
-                    var passHash = Hash.GenerateSaltedHash(psw, salt);
-
-                    ctx.Add(new User
+                    if (ctx.Users.Find(user.Id) is User dbUser)
                     {
-                        DateRegistration = DateTime.Now,
-                        Login = login,
-                        Salt = Convert.ToBase64String(salt),
-                        Password = Convert.ToBase64String(passHash),
-                    });
+                        dbUser.FirstName = user.FirstName;
+                        dbUser.LastName = user.LastName;
+                        dbUser.Domain = user.Domain;
+                    }
+                    else
+                    {
+                        ctx.Add(new User
+                        {
+                            Id = user.Id,
+                            DateRegistration = DateTime.Now,
+                            Domain = user.Domain,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                        });
+                    }
 
-                    ctx.SaveChanges();
-
-                    return ctx.Users.First(x => x.Login == login).Id ;
+                    if (ctx.ChangeTracker.HasChanges())
+                        ctx.SaveChanges();
                 }
+                return true;
             }
             catch
             {
-                return -1;
+                return false;
             }
         }
 
 
+        /// <summary>
+        /// Метод добавляет номер телефона для пользователя
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="phone">Телефон без кода страны (10 цифр)</param>
+        /// <returns></returns>
+        public static bool AddUpdatePhoneUser(long userId, string phone)
+        {
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    if (ctx.Users.Find(userId) is User dbUser)
+                        dbUser.Phone = phone;
+                    else
+                        throw new Exception("Пользователь не найден");
+                    ctx.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
-        /// Метод возвразщает инфу о пользователе, по его Id
+        /// Метод добавляет/обновляет ChatId чата с Telegram
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="phone">Телефон без кода страны (10 цифр)</param>
+        /// <returns></returns>
+        public static bool AddUpdateChatIdUser(string phone, long chatId)
+        {
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    if (ctx.Users.FirstOrDefault(x => x.Phone == phone) is User dbUser)
+                        dbUser.ChatId = chatId;
+                    else
+                        throw new Exception("Пользователь с таким телеофном не найден");
+                    ctx.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Метод возвразщает ChatId пользователя, по его Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static long GetChatIdUser(long userId)
+        {
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    if (ctx.Users.Find(userId) is User dbUser)
+                        return dbUser.ChatId;
+                    else
+                        throw new Exception("Пользователь не найден");
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Метод возвразщает телефон пользователя, по его Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static UserDTO GetUser(int id)
+        public static string GetPhoneUser(long id)
         {
-            var user = new UserDTO();
             try
             {
                 using (var ctx = new BeruaContext())
                 {
                     var dbUser = ctx.Users.Find(id);
                     if (dbUser == null)
-                        return user;
-
-                    user.Id = dbUser.Id;
-                    user.Login = dbUser.Login;
+                        throw new Exception("Пользователь не найден");
+                    return dbUser.Phone;
                 }
-                return user;
             }
             catch
             {
-                return user;
+                return "";
             }
         }
 
@@ -80,31 +149,31 @@ namespace berua.BLL.Actions
         /// <param name="login">Логин пользователя</param>
         /// <param name="psw">Пароль пользователя</param>
         /// <returns></returns>
-        public static int ValidateUser(string login, string psw)
-        {
-            try
-            {
-                using (var ctx = new BeruaContext())
-                {
-                    var dbUser = ctx.Users.FirstOrDefault(x => x.Login == login);
-                    if (dbUser == null)
-                        return -3;
+        //public static int ValidateUser(string login, string psw)
+        //{
+        //    try
+        //    {
+        //        using (var ctx = new BeruaContext())
+        //        {
+        //            var dbUser = ctx.Users.FirstOrDefault(x => x.Login == login);
+        //            if (dbUser == null)
+        //                return -3;
 
-                    var salt = Convert.FromBase64String(dbUser.Salt);
-                    var passhash = Hash.GenerateSaltedHash(psw, salt);
-                    var oldHash = Convert.FromBase64String(dbUser.Password);
+        //            var salt = Convert.FromBase64String(dbUser.Salt);
+        //            var passhash = Hash.GenerateSaltedHash(psw, salt);
+        //            var oldHash = Convert.FromBase64String(dbUser.Password);
 
-                    if (Hash.CompareByteArrays(passhash, oldHash))
-                        return dbUser.Id;
-                    else
-                        return -2;
-                }
-            }
-            catch
-            {
-                return -1;
-            }
-        }
+        //            if (Hash.CompareByteArrays(passhash, oldHash))
+        //                return dbUser.Id;
+        //            else
+        //                return -2;
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return -1;
+        //    }
+        //}
 
     }
 }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace berua.BLL.DTO
+﻿namespace berua.BLL.DTO
 {
     public class SubscriptionDTO
     {
-
-
-
-
+        public int UserId { get; set; }
+        public string AccountKey { get; set; }
+        public SocialNetworkType Type { get; set; }
     }
 }

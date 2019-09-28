@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using berau_backend.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace berua.API.Controllers
@@ -12,10 +13,17 @@ namespace berua.API.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IActionResult GetTest()
         {
-            return new string[] { "value1", "value2" };
+            var dict = new Dictionary<SocialNetworkType, string>()
+            { 
+                {SocialNetworkType.vk, "xfkgjbns;gbk"},
+                {SocialNetworkType.facebook, "dtyjd"},
+                {SocialNetworkType.instagram, "dydyhnsthsrth;gbk"},
+            };
+            return Ok(dict);
         }
+
 
         // GET api/values/5
         [HttpGet("{id}")]

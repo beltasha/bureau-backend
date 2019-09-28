@@ -21,11 +21,11 @@ namespace berau_backend.Controllers
         
         [HttpPost]
         [Route("search")]       
-        public List<AccountDTO> Post([FromBody] SearchDTO search)
+        public List<AccountModel> Post([FromBody] SearchDTO search)
         {           
-            return new List<AccountDTO>(){
+            return new List<AccountModel>(){
 
-                new AccountDTO() {
+                new AccountModel() {
                     Id = new Guid(),
                     Name = "Test Testerson",
                     PhotoUrl = "https://sun9-52.userapi.com/c638624/v638624418/75575/ocYjIIcMfuY.jpg",
@@ -82,12 +82,12 @@ namespace berau_backend.Controllers
 
         [HttpGet]
         [Route("saved")]
-        public IEnumerable<AccountDTO> GetSavedUsers()
+        public IEnumerable<AccountModel> GetSavedUsers()
         {
-            var userList = new List<AccountDTO>();
+            var userList = new List<AccountModel>();
             foreach(var guid in _savedUsers)
             {
-                var user = new AccountDTO();
+                var user = new AccountModel();
                 user.Id = guid;
                 userList.Add(user);
             }
