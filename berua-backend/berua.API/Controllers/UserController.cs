@@ -44,7 +44,7 @@ namespace berua.API.Controllers
 
         [HttpPost]
         [Route("getphone")]
-        public IActionResult GetPhone(long userId)
+        public IActionResult GetPhone([FromBody] long userId)
         {
             return Ok(UserAction.GetPhoneUser(userId));
         }
@@ -52,12 +52,12 @@ namespace berua.API.Controllers
 
         [HttpPost]
         [Route("addtest")]
-        public IActionResult AddUpdateVKUser(long userid, string name)
+        public IActionResult AddUpdateVKUser([FromBody] AuthVKModel model)
         {
             var user = new UserDTO
             {
-                Id = userid,
-                Domain = name,
+                Id = model.Id,
+                Domain = model.Domain,
             };
 
             if (UserAction.AddUpdateUser(user))
