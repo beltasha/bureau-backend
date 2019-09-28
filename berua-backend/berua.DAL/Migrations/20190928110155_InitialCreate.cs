@@ -13,9 +13,9 @@ namespace berua.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LoginVK = table.Column<string>(nullable: true),
-                    LoginInstagram = table.Column<string>(nullable: true),
-                    LoginFacebook = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
+                    AvatarUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,19 +40,38 @@ namespace berua.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subscription",
+                name: "AccountKeys",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
+                    SocialNetworkType = table.Column<byte>(nullable: false),
                     AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subscription", x => new { x.AccountId, x.UserId });
+                    table.PrimaryKey("PK_AccountKeys", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Subscription_Accounts_AccountId",
+                        name: "FK_AccountKeys_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subscription",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    AccountKeyId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscription", x => new { x.AccountKeyId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_Subscription_AccountKeys_AccountKeyId",
+                        column: x => x.AccountKeyId,
+                        principalTable: "AccountKeys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -62,6 +81,11 @@ namespace berua.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountKeys_AccountId",
+                table: "AccountKeys",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscription_UserId",
@@ -75,10 +99,13 @@ namespace berua.DAL.Migrations
                 name: "Subscription");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "AccountKeys");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
         }
     }
 }

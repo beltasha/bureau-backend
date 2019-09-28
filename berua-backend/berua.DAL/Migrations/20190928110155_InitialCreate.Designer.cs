@@ -9,7 +9,7 @@ using berua.DAL;
 namespace berua.DAL.Migrations
 {
     [DbContext(typeof(BeruaContext))]
-    [Migration("20190927233344_InitialCreate")]
+    [Migration("20190928110155_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,24 +23,40 @@ namespace berua.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LoginFacebook");
+                    b.Property<string>("AvatarUrl");
 
-                    b.Property<string>("LoginInstagram");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("LoginVK");
+                    b.Property<string>("Surname");
 
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("berua.DAL.AccountKey", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccountId");
+
+                    b.Property<byte>("SocialNetworkType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("AccountKeys");
+                });
+
             modelBuilder.Entity("berua.DAL.Subscription", b =>
                 {
-                    b.Property<int>("AccountId");
+                    b.Property<string>("AccountKeyId");
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("AccountId", "UserId");
+                    b.HasKey("AccountKeyId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -67,11 +83,19 @@ namespace berua.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("berua.DAL.Subscription", b =>
+            modelBuilder.Entity("berua.DAL.AccountKey", b =>
                 {
                     b.HasOne("berua.DAL.Account", "Account")
-                        .WithMany("Subscriptions")
+                        .WithMany("AccountKeys")
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("berua.DAL.Subscription", b =>
+                {
+                    b.HasOne("berua.DAL.AccountKey", "AccountKey")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("AccountKeyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("berua.DAL.User", "User")

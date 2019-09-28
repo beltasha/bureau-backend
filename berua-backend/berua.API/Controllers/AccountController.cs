@@ -8,7 +8,6 @@ using berua.API.Clients;
 using berua.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using berua.API.Model;
 using Microsoft.AspNetCore.Cors;
 
 namespace berau_backend.Controllers
@@ -16,7 +15,7 @@ namespace berau_backend.Controllers
     [Route("api/users")]
     [EnableCors("CorsPolicy")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AccountController : ControllerBase
     {       
         private List<Guid> _savedUsers = new List<Guid>();
         
