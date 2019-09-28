@@ -36,7 +36,7 @@ namespace berua.BLL.Actions
                 }
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
