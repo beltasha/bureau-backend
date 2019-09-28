@@ -35,7 +35,7 @@ namespace berua.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.InnerException.Message);
+                return BadRequest(ex.ToString());
             }                         
 
         }
