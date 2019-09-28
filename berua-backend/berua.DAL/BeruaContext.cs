@@ -27,6 +27,6 @@ namespace berua.DAL
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source=beruaDB.db");
+            => options.UseSqlite($"Data Source={_pathdb}/beruaDB.db");
     }
 }
