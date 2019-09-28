@@ -142,6 +142,39 @@ namespace berua.BLL.Actions
             }
         }
 
+        /// <summary>
+        /// Метод возвразщает телефон пользователя, по его Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static UserDTO GetUserByPhone(string phone)
+        {
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    var dbUser = ctx.Users.FirstOrDefault(u => phone.Contains(u.Phone));
+                    if (dbUser == null)
+                        throw new Exception("Пользователь не найден");
+
+                    var user = new UserDTO()
+                    {
+                        Id = dbUser.Id,
+                        Domain = dbUser.Domain,
+                        Phone = dbUser.Phone,
+                        FirstName = dbUser.FirstName,
+                        LastName = dbUser.LastName,
+                        ChatId = dbUser.ChatId
+                    };
+
+                    return user;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         /// <summary>
         /// Метод возвращает id пользователя в БД

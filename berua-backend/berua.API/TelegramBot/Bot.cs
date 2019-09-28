@@ -44,7 +44,7 @@ namespace berua.API.Telegram
 
                         // Здесь сохранение данных пользователя
                         var userDto = UserAction.GetUserByPhone(e.Message.Contact.PhoneNumber);
-                        userDto.TelegramChatId = e.Message.Chat.Id;
+                        userDto.ChatId = e.Message.Chat.Id;
                         UserAction.AddUpdateUser(userDto);
 
                         await botClient.SendTextMessageAsync(
