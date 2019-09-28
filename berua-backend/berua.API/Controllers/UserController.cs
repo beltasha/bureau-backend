@@ -4,6 +4,7 @@ using berua.BLL.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using berua.API.Clients;
+using System.Threading.Tasks;
 
 namespace berua.API.Controllers
 {
@@ -14,9 +15,10 @@ namespace berua.API.Controllers
     {
         [HttpPost]    
         [Route("addupdatevkuser")]
-        public IActionResult AddUpdateVKUser([FromBody] TokenModel token)
+        public async Task<IActionResult> AddUpdateVKUser([FromBody] TokenModel token)
         {
-            var vkuser = VkClient.GetUser(token.Token);
+            var vk = new VkClient();
+            var vkuser = await vk.GetUserByCode(token);
             var user = new UserDTO
             {
                 Id = vkuser.Id,
@@ -28,7 +30,7 @@ namespace berua.API.Controllers
             if (UserAction.AddUpdateUser(user))
                 return Ok();
             else
-                return BadRequest("Ошибка при добавлении пользоватиеля");           
+                return BadRequest("Ошибка при добавлении пользоватиеля");                  
         }
 
         [HttpPost]
