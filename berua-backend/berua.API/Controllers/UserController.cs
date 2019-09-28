@@ -20,14 +20,18 @@ namespace berua.API.Controllers
         {
             var vk = new VkClient();
             var vkuser = await vk.GetUserByCode(token);
-            var user = new UserDTO
+            var user = new UserDTO();
+            if(vkuser != null)
             {
-                Id = vkuser.Id,
-                FirstName = vkuser.FirstName,
-                LastName = vkuser.LastName,
-                Domain = vkuser.Domain,
-            };
-
+                user = new UserDTO
+                {
+                    Id = vkuser.Id,
+                    FirstName = vkuser.FirstName,
+                    LastName = vkuser.LastName,
+                    Domain = vkuser.Domain,
+                };
+            }
+            
             try
             {
                 UserAction.AddUpdateUser(user);
