@@ -35,7 +35,7 @@ namespace berua.API.Controllers
             try
             {
                 UserAction.AddUpdateUser(user);
-                return Ok();
+                return Ok(vkuser);
             }
             catch(Exception ex)
             {
