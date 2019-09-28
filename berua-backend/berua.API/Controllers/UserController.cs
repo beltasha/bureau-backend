@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using berua.API.Clients;
 using System.Threading.Tasks;
+using System;
 
 namespace berua.API.Controllers
 {
@@ -27,10 +28,15 @@ namespace berua.API.Controllers
                 Domain = vkuser.Domain,
             };
 
-            if (UserAction.AddUpdateUser(user))
+            try
+            {
+                UserAction.AddUpdateUser(user);
                 return Ok();
-            else       
-                return BadRequest("Ошибка при добавлении пользоватиеля");                  
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }                         
 
         }
 
