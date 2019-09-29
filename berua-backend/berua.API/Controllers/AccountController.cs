@@ -24,12 +24,13 @@ namespace berau_backend.Controllers
         [Route("search")]       
         public AccountModel Post([FromBody] SearchDTO search)
         {
-            var user = VkClient.Search(search.Text);
+            var user = VkClient.Search(search);
             var dtoUser = new AccountModel()
             {
                 Id = user.Id.ToString(),
                 AccountUrl = user.Domain,
-                Name = user.FirstName + " " + user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,   
                 PhotoUrl = user.Photo400Orig.ToString(),
                 Type = SocialNetworkType.VK
             };
@@ -39,7 +40,7 @@ namespace berau_backend.Controllers
 
         [HttpPost]
         [Route("get-posts")]
-        public IEnumerable<PostDTO> GetUserPosts([FromBody] string accountId)
+        public async Task<IEnumerable<PostDTO>> GetUserPosts([FromBody] PostDTOModel postModel)
         {                     
             var post1 = new PostDTO()
             {
@@ -65,6 +66,21 @@ namespace berau_backend.Controllers
                 currentPost.FirstName += i.ToString();
                 currentPost.LastName += i.ToString();
                 postList.Add(currentPost);
+            }
+
+            var vkPosts = await VkClient.GetUserPosts(postModel);
+            var usr = VkClient.GetUser(postModel.Token, postModel.AccountId);
+            foreach (var pst in vkPosts.Response.Items){
+                postList.Add(new PostDTO
+                {
+                    Id = pst.Id.ToString(),
+                    FirstName = usr.FirstName,
+                    LastName = usr.LastName,
+                    AvatarUrl = usr.PhotoUrl,
+                    Text = pst.Text,
+                    Likes = pst.Likes.Count,
+                    Images = pst.Attachments.Select(x => x.Photo.Photo1280.ToString()).ToArray()
+                });
             }
 
             return postList;

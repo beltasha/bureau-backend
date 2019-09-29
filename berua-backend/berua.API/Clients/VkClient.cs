@@ -10,6 +10,7 @@ using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 using Newtonsoft.Json;
+using berau_backend.Model;
 
 namespace berua.API.Clients
 {
@@ -33,12 +34,12 @@ namespace berua.API.Clients
             
         }
 
-        public static async Task<VkWallResponse> GetUserPosts(string ownerId)
+        public static async Task<VkWallResponse> GetUserPosts(PostDTOModel postModel)
         {
             try
             {
                 HttpResponseMessage response = new HttpResponseMessage();
-                response = await HttpClient.GetAsync("http://api.vk.com/method/wall.get?access_token=" + serviceKey + "&owner_id=" + ownerId + "&v=" + apiVersion);
+                response = await HttpClient.GetAsync("http://api.vk.com/method/wall.get?access_token=" + serviceKey + "&owner_id=" + postModel.AccountId + "&v=" + apiVersion);
 
                 response.EnsureSuccessStatusCode();
 
@@ -49,6 +50,39 @@ namespace berua.API.Clients
             {
                 throw e;
             }
+        }
+
+        public static List<VkNet.Model.Attachments.Post> GetPosts(PostDTOModel postModel)
+        {
+            var api = new VkApi();
+            api.Authorize(new ApiAuthParams
+            {
+                AccessToken = postModel.Token
+            });
+            var posts = api.Wall.Get(new WallGetParams
+            {
+                OwnerId = Convert.ToInt64(postModel.AccountId),
+                Filter = WallFilter.Owner
+            });
+            return posts.WallPosts.ToList();
+        }
+
+        public static AccountModel GetUser(string token,long id)
+        {
+            var api = new VkApi();
+            api.Authorize(new ApiAuthParams
+            {
+                AccessToken = token
+            });
+
+            var user = api.Users.Get(new long[] { id }).FirstOrDefault();
+            var accUser = new AccountModel();
+            accUser.Id = user.Id.ToString();
+            accUser.AccountUrl = user.Domain;
+            accUser.FirstName = user.FirstName;
+            accUser.LastName = user.LastName;
+            accUser.PhotoUrl = user.Photo400Orig.ToString();
+            return accUser;
         }
 
         public static async Task<VkServerResponse> GetCredentials() {
@@ -98,28 +132,37 @@ namespace berua.API.Clients
             return account.FirstOrDefault();
         }
 
-        public async Task<User> GetUserByCode(TokenModel token)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            response = await HttpClient.GetAsync("https://oauth.vk.com/access_token?client_id=" + token.ClientId + "&client_secret=0jHZfOgGCSz3HBs1iMgH&redirect_uri=" + token.RedirectId + "&code=" + token.Code);
-            var json = await response.Content.ReadAsStringAsync();
-            TokenResponse tokenReponse = JsonConvert.DeserializeObject<TokenResponse> (json);
+        public async Task<User> GetUserByCode(string token)
+        {           
             VkApi api = new VkApi();
             api.Authorize(new ApiAuthParams
             {
-                AccessToken = tokenReponse.Access_token
+                AccessToken = token
             });
 
             var a = api.Users.Get(new long[] { });
             return a.FirstOrDefault();
         }
 
-        public static User Search(string searchText)
+        public async Task<string> GetToken(TokenModel token)
         {
-            
-            var users = _api.Users.Search(new UserSearchParams
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = await HttpClient.GetAsync("https://oauth.vk.com/access_token?client_id=" + token.ClientId + "&client_secret=0jHZfOgGCSz3HBs1iMgH&redirect_uri=" + token.RedirectId + "&code=" + token.Code);
+            var json = await response.Content.ReadAsStringAsync();
+            TokenResponse tokenReponse = JsonConvert.DeserializeObject<TokenResponse>(json);
+            return tokenReponse.Access_token;
+        }
+
+        public static User Search(SearchDTO search)
+        {
+            var api = new VkApi();
+            api.Authorize(new ApiAuthParams
             {
-                Query = searchText,
+                AccessToken = search.Token
+            });
+            var users = api.Users.Search(new UserSearchParams
+            {
+                Query = search.Text,
                 Sort = 0,
                 Count = 1,
                 Fields = ProfileFields.All

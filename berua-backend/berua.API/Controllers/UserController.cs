@@ -20,7 +20,8 @@ namespace berua.API.Controllers
         public async Task<IActionResult> AddUpdateVKUser([FromBody] TokenModel token)
         {
             var vk = new VkClient();
-            var vkuser = await vk.GetUserByCode(token);
+            var tokenString = await vk.GetToken(token);
+            var vkuser = await vk.GetUserByCode(tokenString);           
             var user = new UserDTO();
             if(vkuser != null)
             {
@@ -30,20 +31,30 @@ namespace berua.API.Controllers
                     FirstName = vkuser.FirstName,
                     LastName = vkuser.LastName,
                     Domain = vkuser.Domain,
-                };
-                var idUser = new IdentityUser { Id = user.Id.ToString() };
+                };               
             }
             
             try
             {
                 UserAction.AddUpdateUser(user);
-                return Ok();
+                var tknbck = new TokenBack()
+                {
+                    Token = tokenString,
+                    Id = user.Id
+                };
+                return Ok(tknbck);
             }
             catch(Exception ex)
             {
                 return BadRequest(ex.ToString());
             }                         
 
+        }
+
+        private class TokenBack
+        {
+            public string Token { get; set; }
+            public long Id { get; set; }
         }
 
         [HttpPost]

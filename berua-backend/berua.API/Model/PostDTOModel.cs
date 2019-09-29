@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace berua.API.Model
 {
-    public class SearchDTO
+    public class PostDTOModel
     {
-        public string Text { get; set; }
+        public long AccountId { get; set; }
         public string Token { get; set; }
     }
 }
