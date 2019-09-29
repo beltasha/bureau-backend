@@ -49,7 +49,7 @@ namespace berau_backend.Controllers
             var vkPosts = await VkClient.GetUserPosts(new PostDTOModel  { AccountId = 35340109, Token = postModel.Token });
             //var vkPosts2 = await VkClient.GetUserPosts(new PostDTOModel { AccountId = 68038156, Token = postModel.Token});
             var vkPosts3 = await VkClient.GetUserPosts(new PostDTOModel { AccountId = 55325758, Token = postModel.Token });
-            var usr = VkClient.GetUser(postModel.Token, 32707600);
+            var usr = VkClient.GetUser(postModel.Token, 35340109);
             var usr2 = VkClient.GetUser(postModel.Token, 68038156);
             var usr3 = VkClient.GetUser(postModel.Token, 55325758);
             List<Item> postList3 = new List<Item>();
