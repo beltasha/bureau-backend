@@ -94,13 +94,5 @@ namespace berau_backend.Controllers
 
             return userList;
         }
-
-        [HttpGet]
-        [Route("posts")]
-        public async void GetInfo()
-        {
-            //var resp = VkClient.GetUserPosts("210700286");
-            VkClient.GetCredentials();
-        }
     }
 }
