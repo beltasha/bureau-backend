@@ -58,7 +58,7 @@ namespace berau_backend.Controllers
             postList3 = postList3.Concat(vkPosts3.Response.Items).ToList();
             //vkPosts.Response.Items.Add(vkPosts2.Response.Items);
             string[] arr = new string[] { };
-            foreach (var pst in postList3)
+            foreach (var pst in vkPosts.Response.Items)
             {
                 postList.Add(new PostDTO
                 {
@@ -66,6 +66,19 @@ namespace berau_backend.Controllers
                     FirstName = usr.FirstName,
                     LastName = usr.LastName,
                     AvatarUrl = usr.PhotoUrl,
+                    Text = pst.Text,
+                    Likes = pst.Likes.Count,
+                    Images = arr
+                });
+            }
+            foreach (var pst in vkPosts3.Response.Items)
+            {
+                postList.Add(new PostDTO
+                {
+                    Id = pst.Id.ToString(),
+                    FirstName = usr3.FirstName,
+                    LastName = usr3.LastName,
+                    AvatarUrl = usr3.PhotoUrl,
                     Text = pst.Text,
                     Likes = pst.Likes.Count,
                     Images = arr
