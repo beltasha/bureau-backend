@@ -114,6 +114,19 @@ namespace berua.API.Clients
             return a.FirstOrDefault();
         }
 
+        public static User Search(string searchText)
+        {
+            
+            var users = _api.Users.Search(new UserSearchParams
+            {
+                Query = searchText,
+                Sort = 0,
+                Count = 1,
+                Fields = ProfileFields.All
+            }).ToList();
+            return users.FirstOrDefault();
+        }
+
         private class TokenResponse
         {
             public string Access_token { get; set; }

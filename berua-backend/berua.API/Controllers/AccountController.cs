@@ -9,6 +9,7 @@ using berua.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using berua.BLL;
 
 namespace berau_backend.Controllers
 {
@@ -17,25 +18,23 @@ namespace berau_backend.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {       
-        private List<Guid> _savedUsers = new List<Guid>();
+        private List<long> _savedUsers = new List<long>();
         
         [HttpPost]
         [Route("search")]       
-        public List<AccountModel> Post([FromBody] SearchDTO search)
-        {           
-            return new List<AccountModel>(){
-
-                new AccountModel() {
-                    Id = new Guid(),
-                    Name = "Test Testerson",
-                    PhotoUrl = "https://sun9-52.userapi.com/c638624/v638624418/75575/ocYjIIcMfuY.jpg",
-                    AccountUrl = "https://vk.com/liz",
-                    Type = SocialNetworkType.vk
-                }   
-
-
-
+        public AccountModel Post([FromBody] SearchDTO search)
+        {
+            var user = VkClient.Search(search.Text);
+            var dtoUser = new AccountModel()
+            {
+                Id = user.Id.ToString(),
+                AccountUrl = user.Domain,
+                Name = user.FirstName + " " + user.LastName,
+                PhotoUrl = user.Photo400Orig.ToString(),
+                Type = SocialNetworkType.VK
             };
+            return dtoUser;
+            
         }
 
         [HttpPost]
@@ -74,7 +73,7 @@ namespace berau_backend.Controllers
 
         [HttpPost]
         [Route("save")]
-        public IActionResult SaveUser([FromBody] Guid account)
+        public IActionResult SaveUser([FromBody] long account)
         {
             _savedUsers.Add(account);
             return Ok();
@@ -88,7 +87,7 @@ namespace berau_backend.Controllers
             foreach(var guid in _savedUsers)
             {
                 var user = new AccountModel();
-                user.Id = guid;
+                user.Id = guid.ToString();
                 userList.Add(user);
             }
 
