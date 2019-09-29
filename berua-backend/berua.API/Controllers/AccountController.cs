@@ -41,33 +41,9 @@ namespace berau_backend.Controllers
         [HttpPost]
         [Route("get-posts")]
         public async Task<IEnumerable<PostDTO>> GetUserPosts([FromBody] PostDTOModel postModel)
-        {                     
-            var post1 = new PostDTO()
-            {
-                Id = new Guid().ToString(),
-                FirstName = "FirstNameTest",
-                LastName = "LastNameTest",
-                AvatarUrl = "https://sun9-12.userapi.com/c851016/v851016587/119cab/ai0uN_RKSXc.jpg?ava=1",
-                Text = "This is my Very big post text" +
-                "This is my Very big post text" +
-                "This is my Very big post text" +
-                "This is my Very big post text",
-                Tags = new string[5] { "красота", "здоровье", "секс", "шмекс", "хакатон" },
-                Likes = 2500,
-                PostUrl = "https://vk.com/mudakoff?w=wall-57846937_32571674",
-                Images = new string[2] { "https://sun9-12.userapi.com/c543105/v543105145/653c8/CO5L_Xf8-OI.jpg", "https://sun9-24.userapi.com/c543105/v543105158/4c299/Z3ge6QQsH0g.jpg" }
-            };
-
+        {                             
             var postList = new List<PostDTO>();
-
-            for (int i = 0; i < 6; i++)
-            {
-                var currentPost = post1;
-                currentPost.FirstName += i.ToString();
-                currentPost.LastName += i.ToString();
-                postList.Add(currentPost);
-            }
-
+          
             var vkPosts = await VkClient.GetUserPosts(postModel);
             var usr = VkClient.GetUser(postModel.Token, postModel.AccountId);
             foreach (var pst in vkPosts.Response.Items){
@@ -83,8 +59,7 @@ namespace berau_backend.Controllers
                 });
             }
 
-            return postList;
-            
+            return postList;         
         }
 
         [HttpPost]

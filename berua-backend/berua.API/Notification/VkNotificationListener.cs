@@ -37,7 +37,11 @@ namespace berua.API.Notification
             Dictionary<long, List<VkWallResponse>> usersPosts = new Dictionary<long, List<VkWallResponse>>();
             foreach (var userId in _userIdList)
             {
-                var wall = await VkClient.GetUserPosts(userId.ToString());
+                var postDto = new PostDTOModel()
+                {
+                    AccountId = userId
+                };
+                var wall = await VkClient.GetUserPosts(postDto);
                 if (wall.Response.Items.Any(x => x.Date > DateTime.Now.AddMinutes(-10)))
                 {
                     if (usersPosts.ContainsKey(userId))
