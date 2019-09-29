@@ -22,18 +22,19 @@ namespace berau_backend.Controllers
         
         [HttpPost]
         [Route("search")]       
-        public AccountModel Post([FromBody] SearchDTO search)
+        public List<AccountModel> Post([FromBody] SearchDTO search)
         {
             var user = VkClient.Search(search);
-            var dtoUser = new AccountModel()
-            {
+            var dtoUser = new List<AccountModel>();
+            dtoUser.Add(new AccountModel()
+            {              
                 Id = user.Id.ToString(),
                 AccountUrl = user.Domain,
                 FirstName = user.FirstName,
-                LastName = user.LastName,   
+                LastName = user.LastName,
                 PhotoUrl = user.Photo400Orig.ToString(),
                 Type = SocialNetworkType.VK
-            };
+            });               
             return dtoUser;
             
         }
