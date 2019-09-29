@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using berua.API.Clients;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace berua.API.Controllers
 {
@@ -30,6 +31,7 @@ namespace berua.API.Controllers
                     LastName = vkuser.LastName,
                     Domain = vkuser.Domain,
                 };
+                var idUser = new IdentityUser { Id = user.Id.ToString() };
             }
             
             try

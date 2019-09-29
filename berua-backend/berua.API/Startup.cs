@@ -49,6 +49,8 @@ namespace berua.API
 
             app.UseMvc();
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
         }
     }
 }
