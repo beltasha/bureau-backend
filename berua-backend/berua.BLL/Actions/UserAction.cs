@@ -147,7 +147,7 @@ namespace berua.BLL.Actions
         /// <summary>
         /// Метод возвразщает UserDTO, по номеру телефона
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="phone"></param>
         /// <returns></returns>
         public static UserDTO GetUserByPhone(string phone)
         {
@@ -174,9 +174,33 @@ namespace berua.BLL.Actions
             }
             catch (Exception)
             {
-                
+                return null;
             }
-            return null;
+        }
+
+        /// <summary>
+        /// Метод возвразщает UserDTO, по номеру телефона
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        public static bool? UserAddedTelegram(long chatId)
+        {
+            try
+            {
+                using (var ctx = new BeruaContext())
+                {
+                    UserDTO user = null;
+                    var dbUser = ctx.Users.FirstOrDefault(u => u.ChatId.Equals(chatId));
+                    if (dbUser != null)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
