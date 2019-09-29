@@ -22,7 +22,7 @@ namespace berua.API.Model
         public long Id { get; set; }
         public long FromId { get; set; }
         public long OwnerId { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public PostType PostType { get; set; }
         public string Text { get; set; }
         public List<Attachment> Attachments { get; set; }
@@ -38,6 +38,7 @@ namespace berua.API.Model
         public Video Video { get; set; }
         public AttachmentPhoto Photo { get; set; }
         public Link Link { get; set; }
+        public Audio Audio { get; set; }
     }
 
     public partial class Link
@@ -101,6 +102,21 @@ namespace berua.API.Model
         public string Platform { get; set; }
         public long CanAdd { get; set; }
         public string TrackCode { get; set; }
+    }
+
+    public partial class Audio
+    {
+        public long Id { get; set; }
+        public long OwnerId { get; set; }
+        public string Artist { get; set; }
+        public string Title { get; set; }
+        public int Duration { get; set; }
+        public string Url { get; set; }
+        public int Lyrics_id { get; set; }
+        public int Album_id { get; set; }
+        public int Genre_id { get; set; }
+        public int Date { get; set; }
+        public int No_search { get; set; }       
     }
 
     public partial class Comments

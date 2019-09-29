@@ -42,17 +42,17 @@ namespace berua.API.Notification
                     AccountId = userId
                 };
                 var wall = await VkClient.GetUserPosts(postDto);
-                if (wall.Response.Items.Any(x => x.Date > DateTime.Now.AddMinutes(-10)))
-                {
-                    if (usersPosts.ContainsKey(userId))
-                    {
-                        usersPosts[userId].Add(wall);
-                    }
-                    else
-                    {
-                        usersPosts.Add(userId, new List<VkWallResponse>() { wall });
-                    }
-                }
+                //if (wall.Response.Items.Any(x => x.Date > DateTime.Now.AddMinutes(-10)))
+                //{
+                //    if (usersPosts.ContainsKey(userId))
+                //    {
+                //        usersPosts[userId].Add(wall);
+                //    }
+                //    else
+                //    {
+                //        usersPosts.Add(userId, new List<VkWallResponse>() { wall });
+                //    }
+                //}
             }
             return usersPosts;
         }

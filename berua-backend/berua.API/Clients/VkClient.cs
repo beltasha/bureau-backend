@@ -21,16 +21,17 @@ namespace berua.API.Clients
         private static readonly string serviceKey = "bfbe3904bfbe3904bfbe390428bfd3251abbfbebfbe3904e2307d5ce4623daf95da58a6";
         private static readonly string apiVersion = "5.64";
         private static VkApi _api = new VkApi();
+        
 
         static VkClient()
         {
-            _api.Authorize(new ApiAuthParams
-            {
-                ApplicationId = _appId,
-                Login = "89319675217",
-                Password = "KPLOsbligq9514#",
-                Settings = Settings.All
-            });
+            //_api.Authorize(new ApiAuthParams
+            //{
+            //    ApplicationId = _appId,
+            //    Login = "89319675217",
+            //    Password = "KPLOsbligq9514#",
+            //    Settings = Settings.All
+            //});
             
         }
 
@@ -39,10 +40,20 @@ namespace berua.API.Clients
             try
             {
                 HttpResponseMessage response = new HttpResponseMessage();
-                response = await HttpClient.GetAsync("http://api.vk.com/method/wall.get?access_token=" + serviceKey + "&owner_id=" + postModel.AccountId + "&v=" + apiVersion);
+
+                if(postModel.AccountId == 0)
+                {
+                    response = await HttpClient.GetAsync("http://api.vk.com/method/wall.get?access_token=" + serviceKey + "&owner_id=&v=" + apiVersion);
+
+                }
+                else
+                {
+                    response = await HttpClient.GetAsync("http://api.vk.com/method/wall.get?access_token=" + serviceKey + "&owner_id=" + postModel.AccountId + "&v=" + apiVersion + "&count=5");
+
+                }
 
                 response.EnsureSuccessStatusCode();
-
+                var srjha = await response.Content.ReadAsStringAsync();
                 var result = await response.Content.ReadAsAsync<VkWallResponse>();
                 return result;
             }
@@ -81,7 +92,7 @@ namespace berua.API.Clients
             accUser.AccountUrl = user.Domain;
             accUser.FirstName = user.FirstName;
             accUser.LastName = user.LastName;
-            accUser.PhotoUrl = user.Photo400Orig.ToString();
+            accUser.PhotoUrl = "";
             return accUser;
         }
 
@@ -102,25 +113,25 @@ namespace berua.API.Clients
             }
         }
 
-        public static void GetUserWall(long userId)
-        {           
-          var wall = _api.Wall.Get(new WallGetParams
-            {
-                OwnerId = userId,
-                Filter = WallFilter.Owner
-            });
-        }
+        //public static void GetUserWall(long userId)
+        //{           
+        //  var wall = _api.Wall.Get(new WallGetParams
+        //    {
+        //        OwnerId = userId,
+        //        Filter = WallFilter.Owner
+        //    });
+        //}
 
-        public static void GetCurrentUserFriends()
-        {
+        //public static void GetCurrentUserFriends()
+        //{
 
-            var friends = _api.Friends.Get(new FriendsGetParams
-            {
+        //    var friends = _api.Friends.Get(new FriendsGetParams
+        //    {
 
-            });
-            var p = _api.Users.Get(new long[] { }).FirstOrDefault();
+        //    });
+        //    var p = _api.Users.Get(new long[] { }).FirstOrDefault();
             
-        }
+        //}
         
         public async Task<User> GetUser(TokenModel token)
         {
