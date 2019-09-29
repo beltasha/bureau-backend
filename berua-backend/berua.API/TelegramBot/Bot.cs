@@ -36,9 +36,16 @@ namespace berua.API.Telegram
                             await botClient.SendTextMessageAsync(
                                 chatId: e.Message.Chat.Id,
                                 text: "Нажмите Подтвердить, чтобы получать уведомления. ВНИМАНИЕ: подтверждая, вы передаете БЮРО свой номер телефона для регистрации в системе.",
-                                disableNotification: true,
                                 replyMarkup: new ReplyKeyboardMarkup(KeyboardButton.WithRequestContact("Подтвердить")));
                         }
+                        else
+                        {
+                            await botClient.SendTextMessageAsync(
+                                chatId: e.Message.Chat.Id,
+                                text: "Вы уже подписаны"
+                                );
+                        }
+                        
                         break;
                     //case "Test":
                     //    Dictionary<long, List<PostDTO>> posts = new Dictionary<long, List<PostDTO>>();
@@ -69,7 +76,7 @@ namespace berua.API.Telegram
                         if (e.Message.Contact != null && e.Message.Contact != null)
                         {
 
-                            string replyText = "Благодарим за регистрацию";
+                            string replyText = "Благодарим за подписку";
                             var userDto = UserAction.GetUserByPhone(e.Message.Contact.PhoneNumber);
                             if (userDto.ChatId != e.Message.Chat.Id)
                             {
@@ -91,7 +98,7 @@ namespace berua.API.Telegram
                             }
                             else
                             {
-                                replyText = "Вы уже зарегистрированы";
+                                replyText = "Вы уже подписаны";
                             }
                             await botClient.SendTextMessageAsync(
                                     chatId: e.Message.Chat.Id,

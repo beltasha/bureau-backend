@@ -31,7 +31,8 @@ namespace berua.API
             {
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader();//asdas
+                    .AllowAnyHeader()
+                    .AllowCredentials();//asdas
             }));
 
             //Task.Run(() => Telegram.Bot.Startup());
